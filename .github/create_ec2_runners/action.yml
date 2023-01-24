@@ -1,4 +1,17 @@
 ---
+inputs:
+  secret_gh_personal_access_token:
+    description: "..."
+    required: true
+  centos8_ami_id:
+    description: "..."
+    required: true
+  subnet_id:
+    description: "..."
+    required: true
+  sg_id:
+    description: "..."
+    required: true
 runs:
   using: "composite"
   steps:
@@ -7,11 +20,11 @@ runs:
       uses: machulav/ec2-github-runner@v2
       with:
         mode: start
-        github-token: ${{ vars.gh_personal_access_token }}
-        ec2-image-id: ${{ vars.centos8_ami_id }}
+        github-token: ${{ inputs.gh_personal_access_token }}
+        ec2-image-id: ${{ inputs.centos8_ami_id }}
         ec2-instance-type: t3.small
-        subnet-id: ${{ vars.subnet_id }}
-        security-group-id: ${{ vars.sg_id }}
+        subnet-id: ${{ inputs.subnet_id }}
+        security-group-id: ${{ inputs.sg_id }}
         aws-resource-tags: > # optional, requires additional permissions
           [
             {"Key": "Name", "Value": "wazuh-ansible-gh-runner-wazuh"},
@@ -24,11 +37,11 @@ runs:
       uses: machulav/ec2-github-runner@v2
       with:
         mode: start
-        github-token: ${{ vars.gh_personal_access_token }}
-        ec2-image-id: ${{ vars.centos8_ami_id }}
+        github-token: ${{ inputs.gh_personal_access_token }}
+        ec2-image-id: ${{ inputs.centos8_ami_id }}
         ec2-instance-type: t3a.large
-        subnet-id: ${{ vars.subnet_id }}
-        security-group-id: ${{ vars.sg_id }}
+        subnet-id: ${{ inputs.subnet_id }}
+        security-group-id: ${{ inputs.sg_id }}
         aws-resource-tags: > # optional, requires additional permissions
           [
             {"Key": "Name", "Value": "wazuh-ansible-gh-runner-aio"},
