@@ -1,0 +1,38 @@
+---
+runs:
+  using: "composite"
+  steps:
+    - name: Start EC2 CentOS Wazuh runner
+      id: start-centos-wazuh-ec2-runner
+      uses: machulav/ec2-github-runner@v2
+      with:
+        mode: start
+        github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        ec2-image-id: ${{ secrets.CENTOS8_AMI_ID }}
+        ec2-instance-type: t3.small
+        subnet-id: ${{ secrets.SUBNET_ID }}
+        security-group-id: ${{ secrets.SG_ID }}
+        aws-resource-tags: > # optional, requires additional permissions
+          [
+            {"Key": "Name", "Value": "wazuh-ansible-gh-runner-wazuh"},
+            {"Key": "GitHubRepository", "Value": "${{ github.repository }}"},
+            {"Key": "team", "Value": "CICD"},
+            {"Key": "termination_Date", "Value": "N/A"}
+          ]
+    - name: Start EC2 CentOS AIO runner
+      id: start-centos-aio-ec2-runner
+      uses: machulav/ec2-github-runner@v2
+      with:
+        mode: start
+        github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        ec2-image-id: ${{ secrets.CENTOS8_AMI_ID }}
+        ec2-instance-type: t3a.large
+        subnet-id: ${{ secrets.SUBNET_ID }}
+        security-group-id: ${{ secrets.SG_ID }}
+        aws-resource-tags: > # optional, requires additional permissions
+          [
+            {"Key": "Name", "Value": "wazuh-ansible-gh-runner-aio"},
+            {"Key": "GitHubRepository", "Value": "${{ github.repository }}"},
+            {"Key": "team", "Value": "CICD"},
+            {"Key": "termination_Date", "Value": "N/A"}
+          ]
